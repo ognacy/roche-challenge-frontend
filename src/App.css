@@ -14,12 +14,8 @@
 
 .mainPage .picture {
   margin-top: 20px;
-  width: 85%;
+  width: 95%;
   text-align: center !important;
-}
-
-.socialFeed {
-  margin-bottom: 150px;
 }
 
 .socialFeed .alignRight {
@@ -73,7 +69,6 @@
 }
 
 .footer {
-  margin-bottom: 130px;
   margin-top: 10px;
 }
 
@@ -114,10 +109,6 @@
   font-size: small;
 }
 
-.profile {
-  margin-bottom: 150px;
-}
-
 .profile .icon {
   width: 50px;
   height: 50px;
@@ -127,7 +118,7 @@
 }
 
 .profile .profileInfo {
-  margin-bottom: -210px;
+  margin-bottom: -340px;
 }
 
 .noMargin {
@@ -166,11 +157,12 @@
 }
 
 .profile .optIn {
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
 .profile .optIn .label {
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .profile .optIn .toggle {
@@ -184,4 +176,8 @@
 
 .mainPage .icon {
   margin-right: 15px;
+}
+
+.alignChart {
+  margin : 0 auto;
 }

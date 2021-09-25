@@ -20,7 +20,7 @@ import { send, call } from "ionicons/icons";
 import { BASE_URL } from "../utils/ENV";
 
 const Chat = () => {
-  const currentUser = "user-1";
+  const currentUser = "me";
 
   const [input, setInput] = useState("");
   const [chat, setChat] = useState("");

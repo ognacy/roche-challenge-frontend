@@ -33,6 +33,12 @@ import { nextPath } from "../utils/Helpers";
 const SocialFeed = () => {
   const [stories, setStories] = useState();
 
+  const addZero = (number) => {
+    if(number > 10) {
+      return 0;
+    }
+  }
+
   const dateFormat = (timestamp) => {
     const date = new Date(timestamp);
     var month = date.getMonth() + 1;
@@ -167,7 +173,7 @@ const SocialFeed = () => {
                   <IonRow className="reactionWidth">
                     {user.preparedReactions.map((reaction, index) => (
                       <>
-                        {reaction.count > 0 && (
+                        {/* {reaction.count > 0 && ( */}
                           <IonCol className="removePadding">
                             <IonIcon
                               icon={
@@ -179,7 +185,7 @@ const SocialFeed = () => {
                             ></IonIcon>
                             <span> {reaction.count}</span>
                           </IonCol>
-                        )}
+                        {/* )} */}
                       </>
                     ))}
                   </IonRow>

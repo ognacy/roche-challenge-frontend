@@ -96,8 +96,7 @@ const Profile = () => {
             <IonRow className="optIn">
               <IonCol size={9} size-lg className="label">
                 <IonLabel>
-                  Do you want give your contact to other members which seems to
-                  fit to you?
+                  Do you want give your contact to other members who seem to be a good fit?
                 </IonLabel>
               </IonCol>
               <IonCol size={2} size-lg  className="verticalAlignContent toggle">

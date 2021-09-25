@@ -11,7 +11,16 @@ import {
   IonSelectOption,
 } from "@ionic/react";
 import axios from "axios";
-import { LineChart, XAxis, Tooltip, CartesianGrid, Line } from "recharts";
+import {
+  LineChart,
+  XAxis,
+  Tooltip,
+  CartesianGrid,
+  Line,
+  ResponsiveContainer,
+  Legend,
+  YAxis,
+} from "recharts";
 import { BASE_URL } from "../utils/ENV";
 
 const Visualizations = () => {
@@ -80,24 +89,41 @@ const Visualizations = () => {
               ))}
             </IonSelect>
           </IonItem>
-          {selectedQuestion && <div className="horizontalAlignContent" >{selectedQuestion.text}</div>}
+          {selectedQuestion && (
+            <div className="horizontalAlignContent">
+              {selectedQuestion.text}
+            </div>
+          )}
           {answers && (
-            <LineChart
-              width={380}
-              height={400}
-              data={answers}
-              margin={{ top: 30, right: 20, left: 10, bottom: 5 }}
-            >
-              <XAxis dataKey="name" height={100} angle={-90} textAnchor="end" interval={0} />
-              <Tooltip />
-              <CartesianGrid stroke="#f5f5f5" />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#ff7300"
-                yAxisId={0}
-              />
-            </LineChart>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                  data={answers}
+                  margin={{ top: 30, right: 20, left: 20, bottom: 5 }}
+                >
+                  <XAxis
+                    dataKey="name"
+                    height={100}
+                    angle={-90}
+                    textAnchor="end"
+                    interval={0}
+                  />
+                  <YAxis
+                    dataKey="value"
+                    width={5}
+                    interval={0}
+                  />
+                  <Tooltip />
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#ff7300"
+                    name="Entered Value"
+                    yAxisId={0}
+                  />
+                  <Legend />
+                </LineChart>
+              </ResponsiveContainer>
           )}
         </IonContent>
       </IonPage>

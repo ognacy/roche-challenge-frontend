@@ -28,7 +28,7 @@ function App() {
           <Home />
         </Route>
       </Switch>
-      <Navbar />
+      {/* <Navbar /> */}
     </Router>
   );
 }
