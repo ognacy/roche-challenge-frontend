@@ -12,14 +12,16 @@ import {
   IonCardContent,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonIcon
 } from "@ionic/react";
+import {thumbsUp, heart, happy, sad, personCircle} from "ionicons/icons";
 
 const Home = () => {
   const blog = [
     {
       stories: {
-        timestamp: "2021-09-25T09:34:05.996Z",
+        timestamp: new Date("2021-09-25T09:34:05.996Z"),
         author_id: "lol123",
         author_display_name: "nice",
         title: "title",
@@ -30,12 +32,37 @@ const Home = () => {
             reaction_user_id: "string",
             reaction_display_name: "string",
           },
+          {
+            reaction_type: "hug",
+            reaction_user_id: "string",
+            reaction_display_name: "string",
+          },
+          {
+            reaction_type: "smile",
+            reaction_user_id: "string",
+            reaction_display_name: "string",
+          },
+          {
+            reaction_type: "hug",
+            reaction_user_id: "string",
+            reaction_display_name: "string",
+          },
+          {
+            reaction_type: "cry",
+            reaction_user_id: "string",
+            reaction_display_name: "string",
+          },
+          {
+            reaction_type: "thumbs up",
+            reaction_user_id: "string",
+            reaction_display_name: "string",
+          },
         ],
       },
     },
     {
       stories: {
-        timestamp: "2021-09-25T09:34:05.996Z",
+        timestamp: new Date("2021-09-25T09:34:05.996Z"),
         author_id: "string",
         author_display_name: "string",
         title: "title",
@@ -51,7 +78,7 @@ const Home = () => {
     },
     {
       stories: {
-        timestamp: "2021-09-25T09:34:05.996Z",
+        timestamp: new Date("2021-09-25T09:34:05.996Z"),
         author_id: "lol123",
         author_display_name: "nice",
         title: "title",
@@ -68,11 +95,71 @@ const Home = () => {
   ];
 
   const dateFormat = (timestamp) => {
-    let date = new Date(timestamp);
+    let date = timestamp;
     var month = date.getMonth() + 1;
     var day = date.getDate();
     var year = date.getFullYear();
     return day + " - " + month + " - " + year;
+  }
+
+  const getReactions = (reactions) => {
+    let hugCount = 0;
+    let cryCount = 0;
+    let smileCount = 0;
+    let thumbsUpCount = 0;
+    for (let index = 0; index < reactions.length; index++) {
+      switch(reactions[index].reaction_type) {
+        case "hug":
+          hugCount += 1;
+          break;
+        case "cry":
+          cryCount += 1;
+          break;
+        case "smile":
+          smileCount += 1;
+          break;
+        case "thumbs up":
+          thumbsUpCount += 1;
+          break;
+        default:
+          break;
+      }
+    }
+    const reactionsArray = [{
+          count: cryCount,
+          icon: sad,
+        },
+        {
+          count: hugCount,
+          icon: heart,
+        },
+        {
+          count: smileCount,
+          icon: happy,
+        },
+        {
+          count: thumbsUpCount,
+          icon: thumbsUp,
+        },
+    ]
+
+    return reactionsArray;
+  }
+
+  const showReactions = (reactions) => {
+    const reactionObject = getReactions(reactions);
+    return (
+      reactionObject.map((reaction, index) => (
+        <>
+        {reaction.count > 0 && (
+          <IonCol className="removePadding">
+            <IonIcon icon={reaction.icon}></IonIcon>
+            <span> {reaction.count}</span>
+          </IonCol>
+        )}
+        </>
+      ))
+    )
   }
 
   return (
@@ -80,6 +167,7 @@ const Home = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Social Feed</IonTitle>
+          <IonIcon icon={personCircle} slot="end" size="large" color="primary"></IonIcon>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -94,11 +182,18 @@ const Home = () => {
                 </IonRow>
               </IonGrid>
             </IonCardSubtitle>
-            <IonCardTitle>{user.stories.title}</IonCardTitle>
+            <IonCardTitle color="primary">{user.stories.title}</IonCardTitle>
           </IonCardHeader>
 
           <IonCardContent>
             {user.stories.story_content}
+            <div>
+              <IonGrid className="removePadding">
+                <IonRow className="reactionWidth">
+                  {showReactions(user.stories.reactions)}
+                </IonRow>
+              </IonGrid>
+            </div>
           </IonCardContent>
         </IonCard>
         ))}

@@ -8,7 +8,7 @@
 .mainPage .ionGrid {
   display: flex;
   flex-direction: column;
-  margin: 50% 0;
+  margin-top: 50%;
   vertical-align: middle !important;
 }
 
@@ -18,6 +18,10 @@
 
 .socialFeed .alignRight {
   text-align: right;
+}
+
+.socialFeed .icon {
+  width: 50px;
 }
 
 .removePadding {
@@ -41,6 +45,10 @@
     color: #fff;
 }
 
+.reactionWidth {
+  width: 60%;
+  margin-top: 10px;
+}
 .message-input {
     width: 100%;
     border: 1px solid;
