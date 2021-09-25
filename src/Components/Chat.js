@@ -16,44 +16,47 @@ import { send } from "ionicons/icons";
 
 const baseURL = "https://roche-build-eynfci34ea-ez.a.run.app/api/v1";
 
-const currentUser = "Robert";
-const responseIdCounter = 0;
-
-const bot_messages = [
-  { index: 0, user: "BOT", text: "Hello friend!" },
-  { index: 1, user: "Robert", text: "Good morning!" },
-  { index: 2, user: "BOT", text: "How are you today?" },
-  { index: 3, user: "Robert", text: "I am fine." },
-];
-
 const Chat = () => {
+  const currentUser = "user-1";
+
   const [input, setInput] = useState("");
+  const [botMessages, setBotMessages] = useState([]);
+
   const onAnswerChange = (e) => setInput(e.target.value);
 
   useEffect(() => {
     axios
       .post(`${baseURL}/start`, {
-        user_id: "1",
-        resume: true,
+        user_id: currentUser,
+        resume: false,
         questionnaire_type: "colon",
       })
-      .then(() => {
-        console.log("POST to /start successful");
+      .then((response) => {
+        setBotMessages([
+          ...botMessages,
+          {
+            user: "BOT",
+            chatId: response.data.chatId,
+            responseId: response.data.responseId,
+            nextQuestion: response.data.nextQuestion,
+            suggestedResponses: response.data.suggestedResponses,
+          },
+        ]);
       });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let lastMessage = botMessages[botMessages.length - 1];
     const answer = input;
 
-    console.log(answer);
     if (answer) {
       axios
         .post(
           `${baseURL}/reply`,
           {
-            chatId: "1",
-            responseId: responseIdCounter + 1,
+            chatId: lastMessage.chatId,
+            responseId: lastMessage.responseId,
             userResponse: answer,
             suggestedResponseUsedId: null,
           },
@@ -65,8 +68,29 @@ const Chat = () => {
             },
           }
         )
-        .then(() => {
-          console.log("POST to /reply successful");
+        .then((response) => {
+          setBotMessages([
+            ...botMessages,
+
+            {
+              user: currentUser,
+              chatId: lastMessage.chatId,
+              responseId: lastMessage.responseId,
+              nextQuestion: [answer],
+              suggestedResponses: null,
+            },
+            {
+              user: "BOT",
+              chatId: response.data.chatId,
+              responseId: response.data.responseId,
+              nextQuestion: response.data.nextQuestion,
+              suggestedResponses: response.data.suggestedResponses,
+            },
+          ]);
+        })
+        .finally(() => {
+          lastMessage = {};
+          setInput("");
         });
     }
   };
@@ -82,22 +106,26 @@ const Chat = () => {
         <div>
           <IonGrid>
             <IonRow>
-              {bot_messages.map((msg) => (
-                <IonCol
-                  offset={currentUser === msg.user ? 3 : 0}
-                  size="9"
-                  key={msg.index}
-                  className={
-                    "message " +
-                    (currentUser === msg.user ? "user-message" : "bot-message")
-                  }
-                >
-                  <b>{msg.user}</b>
-                  <br />
-                  <span>{msg.text}</span>
-                  <br />
-                </IonCol>
-              ))}
+              {botMessages.map((msg) =>
+                msg.nextQuestion.map((m) => (
+                  <IonCol
+                    offset={currentUser === msg.user ? 3 : 0}
+                    size="9"
+                    key={m}
+                    className={
+                      "message " +
+                      (currentUser === msg.user
+                        ? "user-message"
+                        : "bot-message")
+                    }
+                  >
+                    <b>{msg.user}</b>
+                    <br />
+                    <span>{m}</span>
+                    <br />
+                  </IonCol>
+                ))
+              )}
             </IonRow>
           </IonGrid>
           <IonFooter>
