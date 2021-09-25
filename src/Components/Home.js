@@ -9,34 +9,36 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { menu, nextPath } from "../utils/Helpers";
-
 import { call } from "ionicons/icons";
+import main_picture from "../assets/main_picture.jpg";
 
 const Home = () => {
-
   return (
     <>
       <IonPage className="mainPage">
         <IonContent>
+          <div className="horizontalAlignContent">
+            <img src={main_picture} alt="main" className="picture" />
+          </div>
           <IonGrid className="ionGrid">
             {menu.map((item, index) => (
               <IonRow key={index} className="ionRow">
                 <IonCol>
-                <IonButton
-                  color="primary"
-                  expand="full"
-                  shape="round"
-                  size="large"
-                  onClick={() => nextPath(item.path)}
-                >
-                  {item.title}
-                </IonButton>
+                  <IonButton
+                    color="primary"
+                    expand="full"
+                    shape="round"
+                    size="large"
+                    onClick={() => nextPath(item.path)}
+                  >
+                    {item.title}
+                  </IonButton>
                 </IonCol>
               </IonRow>
             ))}
             <IonRow>
               <IonCol>
-              <IonButton
+                <IonButton
                   color="success"
                   expand="full"
                   shape="round"

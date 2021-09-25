@@ -8,8 +8,14 @@
 .mainPage .ionGrid {
   display: flex;
   flex-direction: column;
-  margin-top: 50%;
+  margin-top: 20%;
   vertical-align: middle !important;
+}
+
+.mainPage .picture {
+  margin-top: 20px;
+  width: 85%;
+  text-align: center !important;
 }
 
 .socialFeed {
@@ -147,6 +153,12 @@
   border-radius: 50%;
   object-fit: contain;
   margin-left: 25px;
+}
+
+.horizontalAlignContent {
+  font-size: larger;
+  margin: 25px 10px;
+  text-align: center !important;
 }
 
 .profile .username {

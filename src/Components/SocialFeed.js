@@ -32,7 +32,6 @@ import { nextPath } from "../utils/Helpers";
 
 const SocialFeed = () => {
   const [stories, setStories] = useState();
-  const [reactionsPrepared, setReactionsPrepared] = useState();
 
   const dateFormat = (timestamp) => {
     const date = new Date(timestamp);
