@@ -106,10 +106,10 @@ const Chat = () => {
           <IonTitle>Chatbot</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonFab vertical="top" horizontal="end" slot="fixed" >
-          <IonFabButton color="success">
-            <IonIcon icon={call} />
-          </IonFabButton>
+      <IonFab vertical="top" horizontal="end" slot="fixed">
+        <IonFabButton color="success">
+          <IonIcon icon={call} />
+        </IonFabButton>
       </IonFab>
       <IonContent
         className="content-chat"

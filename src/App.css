@@ -55,12 +55,12 @@
 
 .bot-message {
   background: lightblue;
-  color: #fff;
+  color: darkblue;
 }
 
 .user-message {
   background: plum;
-  color: #fff;
+  color: darkmagenta;
 }
 
 .remove-margin {
