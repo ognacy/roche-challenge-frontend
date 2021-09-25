@@ -7,27 +7,9 @@ import {
   IonContent,
   IonPage,
 } from "@ionic/react";
+import { menu, nextPath } from "../utils/Helpers";
 
 const Home = () => {
-  const menu = [
-    {
-      title: "Chatbot",
-      path: "/chatbot",
-    },
-    {
-      title: "Social feed",
-      path: "/social-feed",
-    },
-    {
-      title: "Visualizations",
-      path: "/visualizations",
-    },
-  ];
-
-  const nextPath = (path) => {
-    console.log(path);
-    window.location.href = path;
-  };
 
   return (
     <>

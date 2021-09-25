@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -16,86 +16,15 @@ import {
   IonIcon
 } from "@ionic/react";
 import {thumbsUp, heart, happy, sad, personCircle} from "ionicons/icons";
+import axios from "axios";
+import { BASE_URL } from "../utils/ENV";
+import { nextPath } from "../utils/Helpers";
 
-const Home = () => {
-  const blog = [
-    {
-      stories: {
-        timestamp: new Date("2021-09-25T09:34:05.996Z"),
-        author_id: "lol123",
-        author_display_name: "nice",
-        title: "title",
-        story_content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        reactions: [
-          {
-            reaction_type: "hug",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-          {
-            reaction_type: "hug",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-          {
-            reaction_type: "smile",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-          {
-            reaction_type: "hug",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-          {
-            reaction_type: "cry",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-          {
-            reaction_type: "thumbs up",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-        ],
-      },
-    },
-    {
-      stories: {
-        timestamp: new Date("2021-09-25T09:34:05.996Z"),
-        author_id: "string",
-        author_display_name: "string",
-        title: "title",
-        story_content: "string",
-        reactions: [
-          {
-            reaction_type: "hug",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-        ],
-      },
-    },
-    {
-      stories: {
-        timestamp: new Date("2021-09-25T09:34:05.996Z"),
-        author_id: "lol123",
-        author_display_name: "nice",
-        title: "title",
-        story_content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        reactions: [
-          {
-            reaction_type: "hug",
-            reaction_user_id: "string",
-            reaction_display_name: "string",
-          },
-        ],
-      },
-    },
-  ];
+const SocialFeed = () => {
+  const [stories, setStories] = useState();
 
   const dateFormat = (timestamp) => {
-    let date = timestamp;
+    const date = new Date(timestamp);
     var month = date.getMonth() + 1;
     var day = date.getDate();
     var year = date.getFullYear();
@@ -162,35 +91,45 @@ const Home = () => {
     )
   }
 
+  useEffect(() => {
+    axios.get(`${BASE_URL}/stories`)
+      .then(response => setStories(response.data.stories));
+  }, [])
+
+  if(!stories) return null;
+
   return (
     <IonPage className="socialFeed">
       <IonHeader>
         <IonToolbar>
           <IonTitle>Social Feed</IonTitle>
-          <IonIcon icon={personCircle} slot="end" size="large" color="primary"></IonIcon>
+          <IonIcon icon={personCircle} slot="end" size="large" color="primary" onClick={() => nextPath("/social-feed/profile")}></IonIcon>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {blog.map((user) => (
-        <IonCard key={user.stories.author_id}>
+        {stories.map((user, index) => (
+        <IonCard key={index}>
           <IonCardHeader>
             <IonCardSubtitle>
               <IonGrid className="removePadding">
                 <IonRow>
-                  <IonCol className="removePadding">{user.stories.author_display_name}</IonCol>
-                  <IonCol className="removePadding alignRight">{dateFormat(user.stories.timestamp)}</IonCol>
+                  <IonCol className="removePadding verticalAlignContent">
+                    <img src={user.author_avatar_url} alt="profile" className="profileImg" />
+                    <span>{user.author_display_name}</span>
+                  </IonCol>
+                  <IonCol className="removePadding alignRight">{dateFormat(user.timestamp)}</IonCol>
                 </IonRow>
               </IonGrid>
             </IonCardSubtitle>
-            <IonCardTitle color="primary">{user.stories.title}</IonCardTitle>
+            <IonCardTitle color="primary">{user.title}</IonCardTitle>
           </IonCardHeader>
 
           <IonCardContent>
-            {user.stories.story_content}
+            {user.story_content}
             <div>
               <IonGrid className="removePadding">
                 <IonRow className="reactionWidth">
-                  {showReactions(user.stories.reactions)}
+                  {showReactions(user.reactions)}
                 </IonRow>
               </IonGrid>
             </div>
@@ -202,4 +141,4 @@ const Home = () => {
   );
 };
 
-export default memo(Home);
+export default memo(SocialFeed);

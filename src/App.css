@@ -17,11 +17,29 @@
 }
 
 .socialFeed .alignRight {
-  text-align: right;
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+  padding:0;
+  justify-content:flex-end;
 }
 
 .socialFeed .icon {
   width: 50px;
+}
+
+.socialFeed .profileImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.verticalAlignContent {
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
 }
 
 .removePadding {
@@ -29,20 +47,20 @@
 }
 
 .message {
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 4px;
-    white-space: pre-wrap;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  white-space: pre-wrap;
 }
 
 .bot-message {
-    background: lightblue;
-    color: #fff;
+  background: lightblue;
+  color: #fff;
 }
 
 .user-message {
-    background: plum;
-    color: #fff;
+  background: plum;
+  color: #fff;
 }
 
 .reactionWidth {
@@ -50,16 +68,37 @@
   margin-top: 10px;
 }
 .message-input {
-    width: 100%;
-    border: 1px solid;
-    border-radius: 10px;
-    background: #fff;
-    resize: none;
-    padding-left: 10px;
-    padding-right: 10px;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 10px;
+  background: #fff;
+  resize: none;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .msg-btn {
-    --padding-start: 0.5em;
-    --padding-end: 1em;
+  --padding-start: 0.5em;
+  --padding-end: 1em;
+}
+
+.profile .icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: contain;
+  margin-right: 25px;
+}
+
+.profile .button {
+  width: 100%;
+  display: flex !important;
+  align-items: center !important;
+  padding:0;
+  justify-content: flex-end !important;
+  margin-right: 0 !important;
+}
+
+.profile .friends {
+  margin-top: 25px;
 }
