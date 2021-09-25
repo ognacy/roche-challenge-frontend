@@ -1,3 +1,8 @@
+.menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
 .message {
     padding: 10px;
     border-radius: 10px;
@@ -14,3 +19,4 @@
     background: plum;
     color: #fff;
 }
+
