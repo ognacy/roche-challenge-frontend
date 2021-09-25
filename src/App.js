@@ -16,11 +16,15 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
+import SocialFeed from './Components/SocialFeed';
 
 function App() {  
   return (
     <Router>
       <Switch>
+        <Route path="/social-feed">
+          <SocialFeed />
+        </Route>
         <Route path="*">
           <Home />
         </Route>
