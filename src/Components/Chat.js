@@ -1,4 +1,5 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import axios from "axios";
 import {
   IonContent,
   IonRow,
@@ -11,21 +12,89 @@ import {
   IonIcon,
 } from "@ionic/react";
 
-import { send } from 'ionicons/icons';
+import { send } from "ionicons/icons";
 
-const currentUser = "Robert";
-const bot_messages = [
-  { index: 0, user: "BOT", text: "Hello friend!" },
-  { index: 1, user: "Robert", text: "Good morning!" },
-  { index: 2, user: "BOT", text: "How are you today?" },
-  { index: 3, user: "Robert", text: "I am fine." },
-];
-
-function reply() {
-  alert('Hello!');
-}
+const baseURL = "https://roche-build-eynfci34ea-ez.a.run.app/api/v1";
 
 const Chat = () => {
+  const currentUser = "user-1";
+
+  const [input, setInput] = useState("");
+  const [botMessages, setBotMessages] = useState([]);
+
+  const onAnswerChange = (e) => setInput(e.target.value);
+
+  useEffect(() => {
+    axios
+      .post(`${baseURL}/start`, {
+        user_id: currentUser,
+        resume: false,
+        questionnaire_type: "colon",
+      })
+      .then((response) => {
+        setBotMessages([
+          ...botMessages,
+          {
+            user: "BOT",
+            chatId: response.data.chatId,
+            responseId: response.data.responseId,
+            nextQuestion: response.data.nextQuestion,
+            suggestedResponses: response.data.suggestedResponses,
+          },
+        ]);
+      });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let lastMessage = botMessages[botMessages.length - 1];
+    const answer = input;
+
+    if (answer) {
+      axios
+        .post(
+          `${baseURL}/reply`,
+          {
+            chatId: lastMessage.chatId,
+            responseId: lastMessage.responseId,
+            userResponse: answer,
+            suggestedResponseUsedId: null,
+          },
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            },
+          }
+        )
+        .then((response) => {
+          setBotMessages([
+            ...botMessages,
+
+            {
+              user: currentUser,
+              chatId: lastMessage.chatId,
+              responseId: lastMessage.responseId,
+              nextQuestion: [answer],
+              suggestedResponses: null,
+            },
+            {
+              user: "BOT",
+              chatId: response.data.chatId,
+              responseId: response.data.responseId,
+              nextQuestion: response.data.nextQuestion,
+              suggestedResponses: response.data.suggestedResponses,
+            },
+          ]);
+        })
+        .finally(() => {
+          lastMessage = {};
+          setInput("");
+        });
+    }
+  };
+
   return (
     <IonPage>
       <IonContent
@@ -37,34 +106,48 @@ const Chat = () => {
         <div>
           <IonGrid>
             <IonRow>
-              {bot_messages.map((msg) => (
-                <IonCol
-                  offset={currentUser === msg.user ? 3 : 0}
-                  size="9"
-                  key={msg.index}
-                  className={
-                    "message " +
-                    (currentUser === msg.user ? "user-message" : "bot-message")
-                  }
-                >
-                  <b>{msg.user}</b>
-                  <br />
-                  <span>{msg.text}</span>
-                  <br />
-                </IonCol>
-              ))}
+              {botMessages.map((msg) =>
+                msg.nextQuestion.map((m) => (
+                  <IonCol
+                    offset={currentUser === msg.user ? 3 : 0}
+                    size="9"
+                    key={m}
+                    className={
+                      "message " +
+                      (currentUser === msg.user
+                        ? "user-message"
+                        : "bot-message")
+                    }
+                  >
+                    <b>{msg.user}</b>
+                    <br />
+                    <span>{m}</span>
+                    <br />
+                  </IonCol>
+                ))
+              )}
             </IonRow>
           </IonGrid>
           <IonFooter>
             <IonToolbar>
               <IonRow align-items-center no-padding>
                 <IonCol size="10">
-                  <textarea autosize="true" maxrows="3" className="message-input"></textarea>
+                  <textarea
+                    autosize="true"
+                    maxrows="3"
+                    className="message-input"
+                    value={input}
+                    onChange={onAnswerChange}
+                  ></textarea>
                 </IonCol>
                 <IonCol size="2">
-                  <IonButton className="msg-btn" expand="block" fill="clear"
-                  onClick={reply}>
-                  <IonIcon icon={send}></IonIcon>
+                  <IonButton
+                    className="msg-btn"
+                    expand="block"
+                    fill="clear"
+                    onClick={handleSubmit}
+                  >
+                    <IonIcon icon={send}></IonIcon>
                   </IonButton>
                 </IonCol>
               </IonRow>
