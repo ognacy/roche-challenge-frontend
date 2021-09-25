@@ -28,30 +28,15 @@ const Chat = () => {
 
   const onAnswerChange = (e) => setInput(e.target.value);
 
-  useEffect(() => {
-    axios
-      .post(`${BASE_URL}/start`, {
-        user_id: currentUser,
-        resume: false,
-        questionnaire_type: "colon",
-      })
-      .then((response) => {
-        setBotMessages([
-          ...botMessages,
-          {
-            user: "BOT",
-            chatId: response.data.chatId,
-            responseId: response.data.responseId,
-            nextQuestion: response.data.nextQuestion,
-            suggestedResponses: response.data.suggestedResponses,
-          },
-        ]);
-        setChat(response.data.chatId);
-      });
-  }, []);
+  const handleUserKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      // e.preventDefault();
+      handleSubmit(e); // this won't be triggered
+    }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     let lastMessage = botMessages[botMessages.length - 1];
     const answer = input;
 
@@ -84,7 +69,7 @@ const Chat = () => {
           setBotMessages([
             ...botMessages,
             {
-              user: "BOT",
+              user: "Rick",
               chatId: chat,
               responseId: response.data.responseId,
               nextQuestion: response.data.nextQuestion,
@@ -98,6 +83,73 @@ const Chat = () => {
         });
     }
   };
+
+  const getClassifiedMsg = (m) => {
+    let message = m;
+    message = message.replace('[','');
+    message = message.replace(']','');
+    return message;
+  }
+
+  const showMessage = (botMessages) => {
+    return (botMessages.map((msg) =>
+      msg.nextQuestion.map((m, index) => (
+        m.includes("Classified") ? 
+        <IonCol offset={currentUser === msg.user ? 3 : 0} size="9"
+        key={index}>
+          <span className="classified">{getClassifiedMsg(m)}</span>
+        </IonCol>
+        :
+        <IonCol
+          offset={currentUser === msg.user ? 3 : 0}
+          size="9"
+          key={msg.responseId + m}
+          className={
+            "message " +
+            (currentUser === msg.user
+              ? "user-message"
+              : "bot-message")
+          }
+        >
+          <b>{msg.user}</b>
+          <br />
+          <span>{m}</span>
+          <br />
+          {/* Buttons for Suggested Answers */}
+          {/*                     <span>
+            {msg.suggestedResponses.map((res) => (
+              <IonButton key={res + m} color="secondary">
+                {res}
+              </IonButton>
+            ))}
+          </span>
+          <br /> */}
+        </IonCol>
+      ))
+    ))
+  }
+
+  useEffect(() => {
+    axios
+      .post(`${BASE_URL}/start`, {
+        user_id: currentUser,
+        resume: false,
+        questionnaire_type: "colon",
+      })
+      .then((response) => {
+        setBotMessages([
+          ...botMessages,
+          {
+            user: "Rick",
+            chatId: response.data.chatId,
+            responseId: response.data.responseId,
+            nextQuestion: response.data.nextQuestion,
+            suggestedResponses: response.data.suggestedResponses,
+          },
+        ]);
+        setChat(response.data.chatId);
+      });
+  }, []);
 
   return (
     <IonPage>
@@ -121,35 +173,7 @@ const Chat = () => {
         <div>
           <IonGrid>
             <IonRow>
-              {botMessages.map((msg) =>
-                msg.nextQuestion.map((m) => (
-                  <IonCol
-                    offset={currentUser === msg.user ? 3 : 0}
-                    size="9"
-                    key={msg.responseId + m}
-                    className={
-                      "message " +
-                      (currentUser === msg.user
-                        ? "user-message"
-                        : "bot-message")
-                    }
-                  >
-                    <b>{msg.user}</b>
-                    <br />
-                    <span>{m}</span>
-                    <br />
-                    {/* Buttons for Suggested Answers */}
-                    {/*                     <span>
-                      {msg.suggestedResponses.map((res) => (
-                        <IonButton key={res + m} color="secondary">
-                          {res}
-                        </IonButton>
-                      ))}
-                    </span>
-                    <br /> */}
-                  </IonCol>
-                ))
-              )}
+              {showMessage(botMessages)}
             </IonRow>
           </IonGrid>
         </div>
@@ -165,6 +189,7 @@ const Chat = () => {
                 type="text"
                 value={input}
                 onChange={onAnswerChange}
+                onKeyPress={handleUserKeyPress}
               ></textarea>
             </IonCol>
             <IonCol size="2">

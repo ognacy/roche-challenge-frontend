@@ -100,7 +100,9 @@ const SocialFeed = () => {
     let prepReactions = newStories[indexUser].preparedReactions;
     for (let index = 0; index < prepReactions.length; index++) {
       if(prepReactions[index].icon === reaction.icon) {
-        newStories[indexUser].preparedReactions[index].isReacted = true;
+        let isReacted = newStories[indexUser].preparedReactions[index].isReacted;
+        newStories[indexUser].preparedReactions[index].isReacted = !isReacted;
+        !isReacted ? newStories[indexUser].preparedReactions[index].count += 1 : newStories[indexUser].preparedReactions[index].count -= 1;
       }
     }
     setStories([...newStories]);

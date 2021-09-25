@@ -74,8 +74,7 @@ const Profile = () => {
             ></IonIcon>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          <IonGrid>
+        <IonGrid className="profileInfo">
             <IonRow>
               <IonCol size={4} size-lg>
                 {user.avatar_url ? (
@@ -109,9 +108,14 @@ const Profile = () => {
               </IonCol>
             </IonRow>
           </IonGrid>
-
+        <IonContent
+          scrollEvents={true}
+          onIonScrollStart={() => {}}
+          onIonScroll={() => {}}
+          onIonScrollEnd={() => {}}
+        >
           <IonListHeader>
-            <IonLabel>Potential friends</IonLabel>
+            <IonLabel className="noMargin">Potential friends</IonLabel>
           </IonListHeader>
           <IonList>
             {potentialFriends &&

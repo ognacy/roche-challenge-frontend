@@ -4,15 +4,15 @@ export const nextPath = (path) => {
 
 export const menu = [
   {
-    title: "Chatbot",
+    title: "talk to us",
     path: "/chatbot",
   },
   {
-    title: "Social feed",
+    title: "support each other",
     path: "/social-feed",
   },
   {
-    title: "Visualizations",
+    title: "how I am doing?",
     path: "/visualizations",
   },
 ];
