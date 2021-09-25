@@ -28,7 +28,7 @@ const Navbar = () => {
     if ((location.pathname !== "/") & (nav.path === "/")) {
       return false;
     }
-    if (!location.pathname.includes(nav.path)) {
+    if (location.pathname !== nav.path) {
       return false;
     } else {
       return true;
