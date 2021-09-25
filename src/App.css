@@ -1,0 +1,16 @@
+.message {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+.bot-message {
+    background: lightblue;
+    color: #fff;
+}
+
+.user-message {
+    background: plum;
+    color: #fff;
+}
