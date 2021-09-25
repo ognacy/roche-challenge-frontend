@@ -9,6 +9,7 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonIcon,
 } from "@ionic/react";
 import axios from "axios";
 import {
@@ -22,6 +23,8 @@ import {
   YAxis,
 } from "recharts";
 import { BASE_URL } from "../utils/ENV";
+import { nextPath } from "../utils/Helpers";
+import { chevronBack } from "ionicons/icons";
 
 const Visualizations = () => {
   const [selectedQuestion, setSelectedQuestion] = useState();
@@ -71,6 +74,13 @@ const Visualizations = () => {
       <IonPage className="visualizations">
         <IonHeader>
           <IonToolbar>
+            <IonIcon
+              icon={chevronBack}
+              slot="start"
+              size="large"
+              color="primary"
+              onClick={() => nextPath("/")}
+            ></IonIcon>
             <IonTitle>Visualizations</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -95,35 +105,31 @@ const Visualizations = () => {
             </div>
           )}
           {answers && (
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart
-                  data={answers}
-                  margin={{ top: 30, right: 20, left: 20, bottom: 5 }}
-                >
-                  <XAxis
-                    dataKey="name"
-                    height={100}
-                    angle={-90}
-                    textAnchor="end"
-                    interval={0}
-                  />
-                  <YAxis
-                    dataKey="value"
-                    width={5}
-                    interval={0}
-                  />
-                  <Tooltip />
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#ff7300"
-                    name="Entered Value"
-                    yAxisId={0}
-                  />
-                  <Legend />
-                </LineChart>
-              </ResponsiveContainer>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart
+                data={answers}
+                margin={{ top: 30, right: 20, left: 20, bottom: 5 }}
+              >
+                <XAxis
+                  dataKey="name"
+                  height={100}
+                  angle={-90}
+                  textAnchor="end"
+                  interval={0}
+                />
+                <YAxis dataKey="value" width={5} interval={0} />
+                <Tooltip />
+                <CartesianGrid stroke="#f5f5f5" />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#ff7300"
+                  name="Entered Value"
+                  yAxisId={0}
+                />
+                <Legend />
+              </LineChart>
+            </ResponsiveContainer>
           )}
         </IonContent>
       </IonPage>

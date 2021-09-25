@@ -16,8 +16,9 @@ import {
   IonFabButton,
 } from "@ionic/react";
 
-import { send, call } from "ionicons/icons";
+import { send, call, chevronBack } from "ionicons/icons";
 import { BASE_URL } from "../utils/ENV";
+import { nextPath } from "../utils/Helpers";
 
 const Chat = () => {
   const currentUser = "me";
@@ -155,6 +156,13 @@ const Chat = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+        <IonIcon
+            icon={chevronBack}
+            slot="start"
+            size="large"
+            color="primary"
+            onClick={() => nextPath("/")}
+          ></IonIcon>
           <IonTitle>Chatbot</IonTitle>
         </IonToolbar>
       </IonHeader>

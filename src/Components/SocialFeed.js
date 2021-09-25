@@ -25,6 +25,7 @@ import {
   sad,
   sadOutline,
   personCircle,
+  chevronBack,
 } from "ionicons/icons";
 import axios from "axios";
 import { BASE_URL } from "../utils/ENV";
@@ -32,12 +33,6 @@ import { nextPath } from "../utils/Helpers";
 
 const SocialFeed = () => {
   const [stories, setStories] = useState();
-
-  const addZero = (number) => {
-    if(number > 10) {
-      return 0;
-    }
-  }
 
   const dateFormat = (timestamp) => {
     const date = new Date(timestamp);
@@ -104,26 +99,27 @@ const SocialFeed = () => {
     let indexUser = newStories.indexOf(user);
     let prepReactions = newStories[indexUser].preparedReactions;
     for (let index = 0; index < prepReactions.length; index++) {
-      if(prepReactions[index].icon === reaction.icon) {
-        let isReacted = newStories[indexUser].preparedReactions[index].isReacted;
+      if (prepReactions[index].icon === reaction.icon) {
+        let isReacted =
+          newStories[indexUser].preparedReactions[index].isReacted;
         newStories[indexUser].preparedReactions[index].isReacted = !isReacted;
-        !isReacted ? newStories[indexUser].preparedReactions[index].count += 1 : newStories[indexUser].preparedReactions[index].count -= 1;
+        !isReacted
+          ? (newStories[indexUser].preparedReactions[index].count += 1)
+          : (newStories[indexUser].preparedReactions[index].count -= 1);
       }
     }
     setStories([...newStories]);
-  }
+  };
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/stories`)
-      .then((response) => {
-        let newStories = response.data.stories;
-        for (let index = 0; index < newStories.length; index++) {
-          let reactionsArray = getReactions(newStories[index].reactions);
-          newStories[index].preparedReactions = reactionsArray;
-        }
-        setStories([...newStories]);
-      });
+    axios.get(`${BASE_URL}/stories`).then((response) => {
+      let newStories = response.data.stories;
+      for (let index = 0; index < newStories.length; index++) {
+        let reactionsArray = getReactions(newStories[index].reactions);
+        newStories[index].preparedReactions = reactionsArray;
+      }
+      setStories([...newStories]);
+    });
   }, []);
 
   if (!stories) return null;
@@ -132,6 +128,13 @@ const SocialFeed = () => {
     <IonPage className="socialFeed">
       <IonHeader>
         <IonToolbar>
+          <IonIcon
+            icon={chevronBack}
+            slot="start"
+            size="large"
+            color="primary"
+            onClick={() => nextPath("/")}
+          ></IonIcon>
           <IonTitle>Social Feed</IonTitle>
           <IonIcon
             icon={personCircle}
@@ -174,17 +177,19 @@ const SocialFeed = () => {
                     {user.preparedReactions.map((reaction, index) => (
                       <>
                         {/* {reaction.count > 0 && ( */}
-                          <IonCol className="removePadding">
-                            <IonIcon
-                              icon={
-                                reaction.isReacted
-                                  ? reaction.icon
-                                  : reaction.iconOutline
-                              }
-                              onClick={() => {addReaction(reaction, user)}}
-                            ></IonIcon>
-                            <span> {reaction.count}</span>
-                          </IonCol>
+                        <IonCol className="removePadding">
+                          <IonIcon
+                            icon={
+                              reaction.isReacted
+                                ? reaction.icon
+                                : reaction.iconOutline
+                            }
+                            onClick={() => {
+                              addReaction(reaction, user);
+                            }}
+                          ></IonIcon>
+                          <span> {reaction.count}</span>
+                        </IonCol>
                         {/* )} */}
                       </>
                     ))}
