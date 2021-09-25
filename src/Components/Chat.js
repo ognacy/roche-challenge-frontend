@@ -10,9 +10,13 @@ import {
   IonToolbar,
   IonButton,
   IonIcon,
+  IonHeader,
+  IonTitle,
+  IonFab,
+  IonFabButton,
 } from "@ionic/react";
 
-import { send } from "ionicons/icons";
+import { send, call } from "ionicons/icons";
 
 const baseURL = "https://roche-build-eynfci34ea-ez.a.run.app/api/v1";
 
@@ -97,7 +101,18 @@ const Chat = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Chatbot</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonFab vertical="top" horizontal="end" slot="fixed" >
+          <IonFabButton color="success">
+            <IonIcon icon={call} />
+          </IonFabButton>
+      </IonFab>
       <IonContent
+        className="content-chat"
         scrollEvents={true}
         onIonScrollStart={() => {}}
         onIonScroll={() => {}}
@@ -128,33 +143,34 @@ const Chat = () => {
               )}
             </IonRow>
           </IonGrid>
-          <IonFooter>
-            <IonToolbar>
-              <IonRow align-items-center no-padding>
-                <IonCol size="10">
-                  <textarea
-                    autosize="true"
-                    maxrows="3"
-                    className="message-input"
-                    value={input}
-                    onChange={onAnswerChange}
-                  ></textarea>
-                </IonCol>
-                <IonCol size="2">
-                  <IonButton
-                    className="msg-btn"
-                    expand="block"
-                    fill="clear"
-                    onClick={handleSubmit}
-                  >
-                    <IonIcon icon={send}></IonIcon>
-                  </IonButton>
-                </IonCol>
-              </IonRow>
-            </IonToolbar>
-          </IonFooter>
         </div>
       </IonContent>
+      <IonFooter className="footer">
+        <IonGrid no-margin no-padding className="remove-margin">
+          <IonRow no-padding>
+            <IonCol size="10">
+              <textarea
+                autosize="true"
+                maxrows="3"
+                className="message-input"
+                type="text"
+                value={input}
+                onChange={onAnswerChange}
+              ></textarea>
+            </IonCol>
+            <IonCol size="2">
+              <IonButton
+                className="msg-btn"
+                expand="block"
+                fill="clear"
+                onClick={handleSubmit}
+              >
+                <IonIcon icon={send}></IonIcon>
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonFooter>
     </IonPage>
   );
 };

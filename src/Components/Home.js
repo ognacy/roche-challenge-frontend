@@ -6,8 +6,11 @@ import {
   IonCol,
   IonContent,
   IonPage,
+  IonIcon,
 } from "@ionic/react";
 import { menu, nextPath } from "../utils/Helpers";
+
+import { call } from "ionicons/icons";
 
 const Home = () => {
 
@@ -31,6 +34,19 @@ const Home = () => {
                 </IonCol>
               </IonRow>
             ))}
+            <IonRow>
+              <IonCol>
+              <IonButton
+                  color="success"
+                  expand="full"
+                  shape="round"
+                  size="large"
+                >
+                  <IonIcon icon={call} className="icon" />
+                  Trouble? Call us
+                </IonButton>
+              </IonCol>
+            </IonRow>
           </IonGrid>
         </IonContent>
       </IonPage>

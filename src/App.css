@@ -20,8 +20,8 @@
   display: flex !important;
   align-content: center !important;
   align-items: center !important;
-  padding:0;
-  justify-content:flex-end;
+  padding: 0;
+  justify-content: flex-end;
 }
 
 .socialFeed .icon {
@@ -63,6 +63,19 @@
   color: #fff;
 }
 
+.remove-margin {
+  margin: 0 !important;
+}
+
+.footer {
+  margin-bottom: 130px;
+  margin-top: 10px;
+}
+
+.fab-button {
+  margin-bottom: 180px;
+}
+
 .reactionWidth {
   width: 60%;
   margin-top: 10px;
@@ -75,6 +88,13 @@
   resize: none;
   padding-left: 10px;
   padding-right: 10px;
+  resize: none;
+}
+
+.message-input:focus {
+  overflow: auto;
+  outline: none;
+  background-color: blanchedalmond;
 }
 
 .msg-btn {
@@ -94,7 +114,7 @@
   width: 100%;
   display: flex !important;
   align-items: center !important;
-  padding:0;
+  padding: 0;
   justify-content: flex-end !important;
   margin-right: 0 !important;
 }
@@ -127,7 +147,11 @@
   width: 100%;
   display: flex !important;
   align-items: center !important;
-  padding:0;
+  padding: 0;
   justify-content: flex-end !important;
   margin-right: 0 !important;
+}
+
+.mainPage .icon {
+  margin-right: 30px;
 }
