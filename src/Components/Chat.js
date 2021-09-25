@@ -13,8 +13,7 @@ import {
 } from "@ionic/react";
 
 import { send } from "ionicons/icons";
-
-const baseURL = "https://roche-build-eynfci34ea-ez.a.run.app/api/v1";
+import { BASE_URL } from "../utils/ENV";
 
 const Chat = () => {
   const currentUser = "user-1";
@@ -27,7 +26,7 @@ const Chat = () => {
 
   useEffect(() => {
     axios
-      .post(`${baseURL}/start`, {
+      .post(`${BASE_URL}/start`, {
         user_id: currentUser,
         resume: false,
         questionnaire_type: "colon",
@@ -62,7 +61,7 @@ const Chat = () => {
       });
       axios
         .post(
-          `${baseURL}/reply`,
+          `${BASE_URL}/reply`,
           {
             chatId: chat,
             responseId: lastMessage.responseId,
@@ -125,7 +124,7 @@ const Chat = () => {
                     <span>{m}</span>
                     <br />
                     {/* Buttons for Suggested Answers */}
-{/*                     <span>
+                    {/*                     <span>
                       {msg.suggestedResponses.map((res) => (
                         <IonButton key={res + m} color="secondary">
                           {res}
