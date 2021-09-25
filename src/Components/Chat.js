@@ -17,20 +17,20 @@ import {
 } from "@ionic/react";
 
 import { send, call } from "ionicons/icons";
-
-const baseURL = "https://roche-build-eynfci34ea-ez.a.run.app/api/v1";
+import { BASE_URL } from "../utils/ENV";
 
 const Chat = () => {
   const currentUser = "user-1";
 
   const [input, setInput] = useState("");
+  const [chat, setChat] = useState("");
   const [botMessages, setBotMessages] = useState([]);
 
   const onAnswerChange = (e) => setInput(e.target.value);
 
   useEffect(() => {
     axios
-      .post(`${baseURL}/start`, {
+      .post(`${BASE_URL}/start`, {
         user_id: currentUser,
         resume: false,
         questionnaire_type: "colon",
@@ -46,6 +46,7 @@ const Chat = () => {
             suggestedResponses: response.data.suggestedResponses,
           },
         ]);
+        setChat(response.data.chatId);
       });
   }, []);
 
@@ -54,12 +55,19 @@ const Chat = () => {
     let lastMessage = botMessages[botMessages.length - 1];
     const answer = input;
 
-    if (answer) {
+    if (answer && answer != null && answer !== "") {
+      botMessages.push({
+        user: currentUser,
+        chatId: chat,
+        responseId: lastMessage.responseId,
+        nextQuestion: [answer],
+        suggestedResponses: [],
+      });
       axios
         .post(
-          `${baseURL}/reply`,
+          `${BASE_URL}/reply`,
           {
-            chatId: lastMessage.chatId,
+            chatId: chat,
             responseId: lastMessage.responseId,
             userResponse: answer,
             suggestedResponseUsedId: null,
@@ -75,17 +83,9 @@ const Chat = () => {
         .then((response) => {
           setBotMessages([
             ...botMessages,
-
-            {
-              user: currentUser,
-              chatId: lastMessage.chatId,
-              responseId: lastMessage.responseId,
-              nextQuestion: [answer],
-              suggestedResponses: null,
-            },
             {
               user: "BOT",
-              chatId: response.data.chatId,
+              chatId: chat,
               responseId: response.data.responseId,
               nextQuestion: response.data.nextQuestion,
               suggestedResponses: response.data.suggestedResponses,
@@ -126,7 +126,7 @@ const Chat = () => {
                   <IonCol
                     offset={currentUser === msg.user ? 3 : 0}
                     size="9"
-                    key={m}
+                    key={msg.responseId + m}
                     className={
                       "message " +
                       (currentUser === msg.user
@@ -138,6 +138,15 @@ const Chat = () => {
                     <br />
                     <span>{m}</span>
                     <br />
+                    {/* Buttons for Suggested Answers */}
+                    {/*                     <span>
+                      {msg.suggestedResponses.map((res) => (
+                        <IonButton key={res + m} color="secondary">
+                          {res}
+                        </IonButton>
+                      ))}
+                    </span>
+                    <br /> */}
                   </IonCol>
                 ))
               )}
