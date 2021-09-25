@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from './Components/Home';
+import Chat from './Components/Chat';
 import Navbar from './Pages/Navbar';
 import './App.css';
 import '@ionic/react/css/core.css';
@@ -21,6 +22,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/chatbot">
+          <Chat />
+        </Route>
         <Route path="*">
           <Home />
         </Route>
