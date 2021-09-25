@@ -49,3 +49,17 @@
   width: 60%;
   margin-top: 10px;
 }
+.message-input {
+    width: 100%;
+    border: 1px solid;
+    border-radius: 10px;
+    background: #fff;
+    resize: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.msg-btn {
+    --padding-start: 0.5em;
+    --padding-end: 1em;
+}
